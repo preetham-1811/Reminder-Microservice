@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    environment:
+       MYSQL_DATABASE: 'primary'
+       MYSQL_USER: 'user'
+       MYSQL_PASSWORD: 'ait'
+       MYSQL_ROOT_PASSWORD: 'ait4tigers'
+  web:
+    build:
+      context: .
+      dockerfile: reminderService/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
